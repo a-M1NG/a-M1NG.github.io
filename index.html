@@ -1,1153 +1,447 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI前沿 | 人工智能技术与算法</title>
+    <title>A-M1NG | AI & Full-Stack Developer</title>
+    <meta name="description" content="A-M1NG's Portfolio - AI Enthusiast & Full Stack Developer">
+
+    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['"Space Grotesk"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
                     colors: {
-                        cyberblue: '#00f0ff',
-                        cyberpurple: '#bd00ff',
-                        glassbg: 'rgba(255, 255, 255, 0.05)',
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'gradient': 'gradient 8s ease infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        gradient: {
-                            '0%': { 'background-position': '0% 50%' },
-                            '50%': { 'background-position': '100% 50%' },
-                            '100%': { 'background-position': '0% 50%' },
+                        brand: {
+                            dark: '#0a0a0a',
+                            light: '#ffffff',
+                            neonGreen: '#ccff00',
+                            neonPink: '#ff00ff',
+                            neonCyan: '#00ffff',
+                            deepPurple: '#4a00e0',
                         }
                     },
                     boxShadow: {
-                        'glass': '0 8px 32px rgba(0, 0, 0, 0.2)',
-                        'glow': '0 0 15px rgba(0, 240, 255, 0.7)',
+                        'hard': '8px 8px 0px 0px rgba(0,0,0,1)',
+                        'hard-hover': '12px 12px 0px 0px rgba(0,0,0,1)',
+                        'hard-sm': '4px 4px 0px 0px rgba(0,0,0,1)',
+                        'hard-white': '8px 8px 0px 0px rgba(255,255,255,1)',
+                    },
+                    animation: {
+                        'marquee': 'marquee 20s linear infinite',
+                        'marquee-reverse': 'marquee 20s linear infinite reverse',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
                     }
                 }
             }
         }
     </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&display=swap');
-
-        body {
-            font-family: 'Exo 2', sans-serif;
-            background: linear-gradient(-45deg, #0a0a1a, #121230, #1a0a2a, #0a1a1a);
-            background-size: 400% 400%;
-            animation: animate-gradient 15s ease infinite;
-            color: #e0e0ff;
-            overflow-x: hidden;
-            min-height: 100vh;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
         }
 
-        h1,
-        h2,
-        h3,
-        h4,
-        .orbitron {
-            font-family: 'Orbitron', sans-serif;
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
         }
 
-        .cyber-gradient {
-            background: linear-gradient(135deg, #00f0ff 0%, #bd00ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        ::-webkit-scrollbar-thumb {
+            background: #ccff00;
+            border: 3px solid #0a0a0a;
         }
 
-        /* 玻璃拟态卡片 */
-        .glass-card {
-            background: rgba(30, 30, 60, 0.25);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff00ff;
+        }
+
+        .text-stroke {
+            -webkit-text-stroke: 1px black;
+            color: transparent;
+        }
+
+        .brutalist-card {
+            transition: all 0.2s ease;
+        }
+
+        .brutalist-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px 0px rgba(255, 0, 255, 1);
+        }
+
+        /* --- 修复后的跑马灯 CSS --- */
+        /* 使用 Flexbox 处理布局，不再依赖复杂的 absolute positioning */
+        .marquee-wrapper {
+            display: flex;
             overflow: hidden;
-            position: relative;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            will-change: transform;
-            cursor: default
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1) 0%, rgba(189, 0, 255, 0.1) 100%);
-            opacity: 0.3;
-            z-index: -1;
-            border-radius: inherit;
-        }
-
-        .glass-card:hover {
-            box-shadow: 0 12px 40px rgba(0, 240, 255, 0.3), 0 0 20px rgba(189, 0, 255, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .glow-border {
-            position: relative;
-        }
-
-        .glow-border::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #00f0ff, #bd00ff, #00f0ff);
-            z-index: -1;
-            border-radius: 18px;
-            filter: blur(5px);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .glow-border:hover::after {
-            opacity: 0.7;
-        }
-
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(0, 240, 255, 0.5);
-            animation: animate-float 15s infinite linear;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -2px;
-            height: 100%;
-            width: 4px;
-            background: linear-gradient(to bottom, #00f0ff, #bd00ff);
-        }
-
-        .neural-network {
-            position: relative;
-            height: 300px;
+            user-select: none;
+            gap: 0;
+            /* 这里的 gap 设置为 0，间距由 li 的 padding 控制 */
             width: 100%;
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            /* 可选：两端渐变消失效果 */
         }
 
-        .neuron {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #00f0ff, #bd00ff);
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
-            z-index: 10;
+        .marquee-content {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-around;
+            min-width: 100%;
+            gap: 0;
+            /* 动画由 Tailwind config 定义，这里作为备用或特定覆盖 */
         }
 
-        .connection {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(to right, rgba(0, 240, 255, 0.3), rgba(189, 0, 255, 0.3));
-            transform-origin: 0 0;
-            z-index: 1;
+        .marquee-content li {
+            padding: 0 2rem;
+            /* 控制单词之间的间距 */
+            white-space: nowrap;
         }
 
-        .pulse-circle {
-            position: absolute;
-            border-radius: 50%;
-            border: 1px solid rgba(0, 240, 255, 0.5);
-            animation: animate-pulse-slow 3s infinite;
-        }
-
-        .circle-1 {
-            width: 400px;
-            height: 400px;
-            animation-delay: 0s;
-        }
-
-        .circle-2 {
-            width: 500px;
-            height: 500px;
-            animation-delay: 1s;
-        }
-
-        .circle-3 {
-            width: 600px;
-            height: 600px;
-            animation-delay: 2s;
-        }
-
-        .floating {
-            animation: animate-float 8s ease-in-out infinite;
-        }
-
-        .floating-2 {
-            animation: animate-float 10s ease-in-out infinite;
-            animation-delay: 2s;
-        }
-
-        .floating-3 {
-            animation: animate-float 12s ease-in-out infinite;
-            animation-delay: 4s;
-        }
-
-        /* 3D卡片效果 */
-        .card-3d {
-            transform: perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1);
-            transition: transform 0.1s ease;
-        }
-
-        .no-float:hover {
-            transform: translateY(0);
-        }
-
-        .btn-cursor {
-            cursor: pointer;
-        }
-
-        @keyframes connection-pulse {
-            0% {
-                opacity: 0.2;
-            }
-
-            50% {
-                opacity: 0.8;
-            }
-
-            100% {
-                opacity: 0.2;
-            }
+        /* 暂停动画交互 */
+        .marquee-wrapper:hover .marquee-content {
+            animation-play-state: paused;
         }
     </style>
 </head>
 
-<body class="min-h-screen animate-gradient">
-    <!-- 粒子背景 -->
-    <div id="particles"></div>
+<body
+    class="bg-brand-dark text-brand-light font-sans selection:bg-brand-neonPink selection:text-white overflow-x-hidden">
 
-    <!-- 导航栏 -->
-    <nav class="fixed w-full z-50 bg-opacity-80 backdrop-blur-md bg-[rgba(20,20,40,0.7)] border-b border-cyan-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <div class="text-2xl font-bold orbitron">
-                            <span class="cyber-gradient">AI</span>前沿
-                        </div>
-                    </div>
-                    <div class="hidden md:ml-10 md:flex md:space-x-8">
-                        <a href="#home" class="text-cyan-300 hover:text-cyan-100 px-3 py-2 orbitron">首页</a>
-                        <a href="#algorithms" class="text-gray-400 hover:text-cyan-100 px-3 py-2 orbitron">核心算法</a>
-                        <a href="#technologies" class="text-gray-400 hover:text-cyan-100 px-3 py-2 orbitron">关键技术</a>
-                        <a href="#timeline" class="text-gray-400 hover:text-cyan-100 px-3 py-2 orbitron">发展历程</a>
-                        <a href="#applications" class="text-gray-400 hover:text-cyan-100 px-3 py-2 orbitron">应用场景</a>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <button
-                        class="glass-card bg-gradient-to-r from-cyan-600 to-purple-600 px-6 py-2 rounded-md orbitron hover:opacity-90 transition no-float btn-cursor">
-                        探索未来
-                    </button>
-                </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 border-b-4 border-brand-neonGreen bg-brand-dark/90 backdrop-blur-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html"
+                class="text-3xl font-bold font-mono text-brand-neonGreen tracking-tighter hover:text-brand-neonPink transition-colors">
+                &lt;A-M1NG /&gt;
+            </a>
+            <div class="hidden md:flex space-x-8 font-bold text-lg">
+                <a href="#projects"
+                    class="hover:text-brand-neonGreen hover:underline decoration-4 underline-offset-4">PROJECTS</a>
+                <a href="ai_showcase.html"
+                    class="text-brand-neonCyan hover:text-white hover:underline decoration-4 underline-offset-4 hover:decoration-brand-neonPink transition-all">AI
+                    SHOWCASE</a>
+                <a href="#stack"
+                    class="hover:text-brand-neonCyan hover:underline decoration-4 underline-offset-4">STACK</a>
+                <a href="#about"
+                    class="hover:text-brand-neonPink hover:underline decoration-4 underline-offset-4">ABOUT</a>
             </div>
+            <a href="https://github.com/a-M1NG" target="_blank"
+                class="bg-white text-black px-6 py-2 font-bold border-2 border-black shadow-hard-sm hover:bg-brand-neonGreen hover:shadow-hard transition-all">
+                GITHUB
+            </a>
         </div>
     </nav>
 
-    <!-- 主展示区 -->
-    <section id="home" class="pt-32 pb-20 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center">
-            <div class="circle-1 pulse-circle"></div>
-            <div class="circle-2 pulse-circle"></div>
-            <div class="circle-3 pulse-circle"></div>
+    <!-- Hero Section -->
+    <header class="min-h-screen flex flex-col justify-center items-center relative pt-20 z-10">
+        <!-- Abstract Background Elements -->
+        <div class="absolute top-1/4 left-10 w-32 h-32 bg-brand-deepPurple rounded-full blur-3xl opacity-50"></div>
+        <div class="absolute bottom-1/4 right-10 w-64 h-64 bg-brand-neonPink rounded-full blur-3xl opacity-30"></div>
+
+        <div class="container mx-auto px-4 relative z-10 text-center">
+            <div
+                class="inline-block mb-4 px-4 py-1 bg-brand-neonPink text-black font-mono font-bold transform -rotate-2 border-2 border-white">
+                HELLO WORLD, I'M
+            </div>
+            <h1 class="text-7xl md:text-9xl font-black mb-6 leading-tight">
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-brand-neonGreen via-brand-neonCyan to-brand-neonGreen bg-[length:200%_auto] animate-pulse">
+                    A-M1NG
+                </span>
+            </h1>
+
+            <p class="text-xl md:text-3xl font-mono text-gray-300 mb-12 max-w-5xl mx-auto leading-normal">
+                <span class="whitespace-nowrap"><span class="text-brand-neonGreen">Full-stack Development</span></span>
+
+                <br class="sm:hidden" />
+                <span class="hidden sm:inline mx-2">|</span>
+
+                <span class="whitespace-nowrap">
+                    <a href="ai_showcase.html"
+                        class="text-brand-neonCyan decoration-4 hover:text-brand-neonPink transition-colors">
+                        Artificial Intelligence
+                    </a>
+                </span>
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="#projects"
+                    class="group relative px-8 py-4 bg-brand-neonGreen text-black font-bold text-xl border-4 border-black shadow-hard hover:shadow-hard-hover hover:-translate-y-1 transition-all">
+                    VIEW PROJECTS
+                    <span
+                        class="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-20 transition-opacity"></span>
+                </a>
+                <a href="https://twitter.com/LoveShark666" target="_blank"
+                    class="px-8 py-4 bg-transparent text-white font-bold text-xl border-4 border-white shadow-hard hover:bg-white hover:text-black transition-all">
+                    CONNECT
+                </a>
+            </div>
         </div>
+    </header>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 orbitron">
-                    探索<span class="cyber-gradient">人工智能</span>的无限可能
-                </h1>
-                <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-10 text-gray-300">
-                    深度解析当今最重要的AI算法与技术，揭示机器学习的未来发展方向
-                </p>
-                <div class="flex justify-center gap-4">
-                    <button
-                        class="glass-card glow-border px-8 py-3 rounded-lg orbitron text-lg hover:bg-gray-900 transition btn-cursor">
-                        <i class="fas fa-brain mr-2"></i>开始探索
-                    </button>
-                    <button
-                        class="glass-card border border-cyan-500 text-cyan-300 px-8 py-3 rounded-lg orbitron text-lg hover:bg-cyan-900 transition btn-cursor">
-                        <i class="fas fa-vial mr-2"></i>演示案例
-                    </button>
-                </div>
-            </div>
+    <!-- STRIPE: Rolling Ticker 1 (Standard Direction) -->
+    <div
+        class="w-full bg-brand-neonGreen border-y-4 border-black py-3 rotate-[1.5deg] scale-105 relative z-30 overflow-hidden">
+        <div class="marquee-wrapper">
+            <!-- Original Content -->
+            <ul class="marquee-content animate-marquee flex items-center">
+                <li><span class="text-4xl font-black text-black">TRANSFORMERS</span></li>
+                <li><span class="text-4xl font-black text-black text-stroke">ATTENTION</span></li>
+                <li><span class="text-4xl font-black text-black">FLASK</span></li>
+                <li><span class="text-4xl font-black text-black text-stroke">CNN</span></li>
+                <li><span class="text-4xl font-black text-black">DIFFUSION</span></li>
+                <li><span class="text-4xl font-black text-black text-stroke">DETR</span></li>
+                <li><span class="text-4xl font-black text-black">TAILWINDCSS</span></li>
+            </ul>
+            <!-- Duplicated Content for seamless loop -->
+            <ul class="marquee-content animate-marquee flex items-center" aria-hidden="true">
+                <li><span class="text-4xl font-black text-black">TRANSFORMERS</span></li>
+                <li><span class="text-4xl font-black text-black text-stroke">ATTENTION</span></li>
+                <li><span class="text-4xl font-black text-black">FLASK</span></li>
+                <li><span class="text-4xl font-black text-black text-stroke">CNN</span></li>
+                <li><span class="text-4xl font-black text-black">DIFFUSION</span></li>
+                <li><span class="text-4xl font-black text-black text-stroke">DETR</span></li>
+                <li><span class="text-4xl font-black text-black">TAILWINDCSS</span></li>
+            </ul>
+        </div>
+    </div>
 
-            <!-- 神经网络可视化 -->
-            <div class="mt-24 neural-network" id="neuralNetwork">
-                <!-- 神经元和连接线通过JS生成 -->
-            </div>
+    <!-- About & Tech Stack Section -->
+    <section id="about"
+        class="pt-40 pb-40 -mt-10 bg-gradient-to-b from-gray-900 via-purple-950 to-gray-900 text-white relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <!-- Left: Bio -->
+                <div>
+                    <h2 class="text-6xl font-black mb-8 uppercase tracking-tighter">
+                        Who <span class="text-brand-neonCyan">Am I?</span>
+                    </h2>
+                    <p class="text-xl font-medium leading-relaxed mb-6 text-gray-200">
+                        我是一名热衷于 <span class="bg-brand-neonPink px-1 text-white">Full-stack</span> 和 <span
+                            class="bg-brand-deepPurple px-1 text-white">AI</span> 的开发者。
+                        我喜欢折腾有趣的小应用，从 Flask 后端构建到 TailwindCSS 前端设计，再到深度学习模型的训练与部署。
+                    </p>
+                    <p class="text-xl font-medium leading-relaxed mb-8 text-gray-200">
+                        目前我专注于 <span
+                            class="font-bold underline decoration-brand-neonGreen decoration-4 text-white">Transformers
+                            架构</span> 和 <span
+                            class="font-bold underline decoration-brand-neonCyan decoration-4 text-white">Diffusion
+                            模型</span> 的学习与研究。
+                    </p>
 
-            <!-- 浮动AI模型 -->
-            <div class="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div class="glass-card p-6 text-center card-3d">
-                    <div
-                        class="w-20 h-20 mx-auto bg-gradient-to-br from-cyan-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-brain text-white text-3xl"></i>
+                    <!-- GitHub Stats Images -->
+                    <div class="space-y-4 opacity-90 hover:opacity-100 transition-opacity">
+                        <img src="https://github-readme-stats.vercel.app/api?username=a-M1NG&show_icons=true&theme=radical&hide_title=true&bg_color=0a0a0a&title_color=ccff00&text_color=ffffff&icon_color=ff00ff&border_color=ffffff"
+                            alt="GitHub Stats" class="w-full shadow-hard-white border-2 border-white">
                     </div>
-                    <h3 class="text-xl font-bold orbitron">深度学习</h3>
                 </div>
 
-                <div class="glass-card p-6 text-center card-3d">
+                <!-- Right: Tech Stack Grid -->
+                <div id="stack" class="bg-brand-dark p-8 border-4 border-white shadow-hard-white relative">
                     <div
-                        class="w-20 h-20 mx-auto bg-gradient-to-br from-cyan-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-robot text-white text-3xl"></i>
+                        class="absolute -top-4 -right-4 bg-brand-neonCyan px-4 py-2 border-2 border-white text-black font-mono font-bold transform rotate-3">
+                        TECH STACK
                     </div>
-                    <h3 class="text-xl font-bold orbitron">强化学习</h3>
-                </div>
-
-                <div class="glass-card p-6 text-center card-3d">
-                    <div
-                        class="w-20 h-20 mx-auto bg-gradient-to-br from-cyan-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-project-diagram text-white text-3xl"></i>
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Skill Items -->
+                        <div
+                            class="p-4 bg-gray-800 border border-gray-700 hover:bg-brand-deepPurple transition-colors group">
+                            <div class="text-brand-neonGreen text-2xl mb-2"><i class="fa-brands fa-python"></i></div>
+                            <h3 class="font-mono text-white font-bold">Python</h3>
+                            <p class="text-xs text-gray-400 group-hover:text-white">Flask, PyTorch</p>
+                        </div>
+                        <div class="p-4 bg-gray-800 border border-gray-700 hover:bg-blue-600 transition-colors group">
+                            <div class="text-white text-2xl mb-2"><i class="fa-brands fa-cuttlefish"></i></div>
+                            <h3 class="font-mono text-white font-bold">C++ / C#</h3>
+                            <p class="text-xs text-gray-400 group-hover:text-white">Systems, WPF</p>
+                        </div>
+                        <div class="p-4 bg-gray-800 border border-gray-700 hover:bg-sky-400 transition-colors group">
+                            <div class="text-sky-400 text-2xl mb-2"><i class="fa-solid fa-wind"></i></div>
+                            <h3 class="font-mono text-white font-bold">Tailwind</h3>
+                            <p class="text-xs text-gray-400 group-hover:text-white">CSS Framework</p>
+                        </div>
+                        <div class="p-4 bg-gray-800 border border-gray-700 hover:bg-yellow-500 transition-colors group">
+                            <div class="text-yellow-500 text-2xl mb-2"><i class="fa-solid fa-database"></i></div>
+                            <h3 class="font-mono text-white font-bold">MySQL</h3>
+                            <p class="text-xs text-gray-400 group-hover:text-white">Data Storage</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold orbitron">生成对抗网络</h3>
-                </div>
-
-                <div class="glass-card p-6 text-center card-3d">
-                    <div
-                        class="w-20 h-20 mx-auto bg-gradient-to-br from-cyan-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-language text-white text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold orbitron">自然语言处理</h3>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 核心算法部分 -->
-    <section id="algorithms" class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold orbitron mb-4">
-                    <span class="cyber-gradient">核心</span>算法解析
-                </h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    驱动人工智能革命的关键算法，从基础理论到前沿创新
-                </p>
-            </div>
+    <!-- STRIPE: Rolling Ticker 2 (Reverse Direction) -->
+    <div
+        class="w-full bg-brand-neonPink border-y-4 border-black py-3 -rotate-[1.5deg] scale-105 z-30 relative -mt-10 overflow-hidden">
+        <div class="marquee-wrapper">
+            <!-- Original Content -->
+            <ul class="marquee-content animate-marquee-reverse flex items-center">
+                <li><span class="text-4xl font-black text-white">CODING</span></li>
+                <li><span class="text-4xl font-black text-brand-dark text-stroke">INNOVATION</span></li>
+                <li><span class="text-4xl font-black text-white">AI-EMPOWERED</span></li>
+                <li><span class="text-4xl font-black text-brand-dark text-stroke">OPEN SOURCE</span></li>
+                <li><span class="text-4xl font-black text-white">FULL-STACK</span></li>
+                <li><span class="text-4xl font-black text-brand-dark text-stroke">LEARNING</span></li>
+                <li><span class="text-4xl font-black text-brand-dark text-stroke">VIBING</span></li>
+            </ul>
+            <!-- Duplicated Content -->
+            <ul class="marquee-content animate-marquee-reverse flex items-center" aria-hidden="true">
+                <li><span class="text-4xl font-black text-white">CODING</span></li>
+                <li><span class="text-4xl font-black text-brand-dark text-stroke">INNOVATION</span></li>
+                <li><span class="text-4xl font-black text-white">AI-EMPOWERED</span></li>
+                <li><span class="text-4xl font-black text-brand-dark text-stroke">OPEN SOURCE</span></li>
+                <li><span class="text-4xl font-black text-white">FULL-STACK</span></li>
+                <li><span class="text-4xl font-black text-brand-dark text-stroke">LEARNING</span></li>
+                <li><span class="text-4xl font-black text-brand-dark text-stroke">VIBING</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-brand-dark relative">
+        <div class="container mx-auto px-4">
+            <h2 class="text-6xl md:text-8xl font-black text-white mb-16 text-center uppercase">
+                Selected <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-brand-neonPink to-brand-deepPurple">Works</span>
+            </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- 算法卡片 1 - 带3D效果 -->
-                <div class="glass-card glow-border p-6 card-3d" data-tilt>
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-cyan-900 flex items-center justify-center">
-                            <i class="fas fa-network-wired text-cyan-400 text-xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold orbitron ml-4">深度学习</h3>
-                    </div>
-                    <p class="text-gray-300 mb-4">
-                        通过多层神经网络学习数据表示，在图像识别、自然语言处理等领域取得突破性进展。
-                    </p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="px-3 py-1 bg-cyan-900 bg-opacity-50 text-cyan-300 rounded-full text-sm">CNN</span>
-                        <span
-                            class="px-3 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded-full text-sm">RNN</span>
-                        <span
-                            class="px-3 py-1 bg-cyan-900 bg-opacity-50 text-cyan-300 rounded-full text-sm">Transformer</span>
-                    </div>
-                    <a href="https://en.wikipedia.org/wiki/Deep_learning" target="_blank" rel="noopener noreferrer"
-                        class="text-cyan-400 hover:text-cyan-300 orbitron flex items-center">
-                        了解更多 <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                    </a>
-                </div>
 
-                <!-- 算法卡片 2 -->
-                <div class="glass-card glow-border p-6 card-3d" data-tilt>
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-purple-900 flex items-center justify-center">
-                            <i class="fas fa-robot text-purple-400 text-xl"></i>
+                <!-- Project Card 1: JUSTMusica -->
+                <article
+                    class="brutalist-card bg-white text-black border-4 border-brand-neonCyan relative group h-full flex flex-col">
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold font-mono">JUSTMusica</h3>
+                            <i class="fa-solid fa-music text-2xl text-blue-500"></i>
                         </div>
-                        <h3 class="text-xl font-bold orbitron ml-4">强化学习</h3>
+                        <p class="font-medium mb-4 text-gray-700">基于 Flutter 开发的跨平台音乐播放器，提供流畅的本地音乐管理与播放体验。</p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span
+                                class="bg-cyan-100 px-2 py-1 text-xs font-bold font-mono border border-black">Flutter</span>
+                            <span
+                                class="bg-cyan-100 px-2 py-1 text-xs font-bold font-mono border border-black">Dart</span>
+                            <span
+                                class="bg-cyan-100 px-2 py-1 text-xs font-bold font-mono border border-black">Cross-Platform</span>
+                        </div>
                     </div>
-                    <p class="text-gray-300 mb-4">
-                        智能体通过与环境交互学习最优策略，在游戏AI、机器人控制等领域表现卓越。
-                    </p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span
-                            class="px-3 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded-full text-sm">Q-Learning</span>
-                        <span class="px-3 py-1 bg-cyan-900 bg-opacity-50 text-cyan-300 rounded-full text-sm">Policy
-                            Gradients</span>
-                        <span
-                            class="px-3 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded-full text-sm">PPO</span>
-                    </div>
-                    <a href="https://en.wikipedia.org/wiki/Reinforcement_learning" target="_blank"
-                        rel="noopener noreferrer"
-                        class="text-purple-400 hover:text-purple-300 orbitron flex items-center">
-                        了解更多 <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    <a href="https://github.com/a-M1NG/JUSTMusica" target="_blank"
+                        class="block w-full bg-black text-white text-center py-3 font-bold hover:bg-brand-neonCyan hover:text-black transition-colors border-t-4 border-brand-neonCyan">
+                        View Repo <i class="fa-solid fa-arrow-right ml-2"></i>
                     </a>
-                </div>
+                </article>
 
-                <!-- 算法卡片 3 -->
-                <div class="glass-card glow-border p-6 card-3d" data-tilt>
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-cyan-900 flex items-center justify-center">
-                            <i class="fas fa-project-diagram text-cyan-400 text-xl"></i>
+                <!-- Project Card 2: PicSearcher -->
+                <article
+                    class="brutalist-card bg-white text-black border-4 border-brand-neonPink relative group h-full flex flex-col">
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold font-mono">PicSearcher</h3>
+                            <div class="flex gap-2 text-pink-500">
+                                <i class="fa-solid fa-robot text-2xl"></i>
+                                <i class="fa-solid fa-magnifying-glass text-2xl"></i>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-bold orbitron ml-4">生成对抗网络</h3>
+                        <p class="font-medium mb-4 text-gray-700">AI 赋能的图片库管理应用。基于 CLIP 模型实现向量化构建，支持“以文搜图”和“以图搜图”功能。</p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span
+                                class="bg-pink-100 px-2 py-1 text-xs font-bold font-mono border border-black">Python</span>
+                            <span
+                                class="bg-pink-100 px-2 py-1 text-xs font-bold font-mono border border-black">CLIP</span>
+                            <span class="bg-pink-100 px-2 py-1 text-xs font-bold font-mono border border-black">AI
+                                Search</span>
+                        </div>
                     </div>
-                    <p class="text-gray-300 mb-4">
-                        通过生成器与判别器的对抗训练，创造逼真的图像、音频和视频内容。
-                    </p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span
-                            class="px-3 py-1 bg-cyan-900 bg-opacity-50 text-cyan-300 rounded-full text-sm">DCGAN</span>
-                        <span
-                            class="px-3 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded-full text-sm">StyleGAN</span>
-                        <span
-                            class="px-3 py-1 bg-cyan-900 bg-opacity-50 text-cyan-300 rounded-full text-sm">CycleGAN</span>
-                    </div>
-                    <a href="https://en.wikipedia.org/wiki/Generative_adversarial_network" target="_blank"
-                        rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 orbitron flex items-center">
-                        了解更多 <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    <a href="https://github.com/a-M1NG/PicSearcher" target="_blank"
+                        class="block w-full bg-black text-white text-center py-3 font-bold hover:bg-brand-neonPink hover:text-black transition-colors border-t-4 border-brand-neonPink">
+                        View Repo <i class="fa-solid fa-arrow-right ml-2"></i>
                     </a>
-                </div>
+                </article>
 
-                <!-- 算法卡片 4 -->
-                <div class="glass-card glow-border p-6 card-3d" data-tilt>
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-purple-900 flex items-center justify-center">
-                            <i class="fas fa-chart-line text-purple-400 text-xl"></i>
+                <!-- Project Card 3: WPF Turing Machine -->
+                <article
+                    class="brutalist-card bg-brand-neonGreen text-black border-4 border-white relative group h-full flex flex-col">
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold font-mono leading-tight">WPF Turing Machine</h3>
+                            <i class="fa-solid fa-tape text-2xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold orbitron ml-4">集成学习</h3>
+                        <p class="font-medium mb-4">C# WPF 应用。读取用户配置的五元组来构建通用图灵机，并支持纸带运行过程的可视化模拟执行。</p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span
+                                class="bg-black text-white px-2 py-1 text-xs font-bold font-mono border border-white">C#</span>
+                            <span
+                                class="bg-black text-white px-2 py-1 text-xs font-bold font-mono border border-white">WPF</span>
+                            <span
+                                class="bg-black text-white px-2 py-1 text-xs font-bold font-mono border border-white">Simulation</span>
+                        </div>
                     </div>
-                    <p class="text-gray-300 mb-4">
-                        结合多个模型的预测结果，显著提高系统性能和鲁棒性，广泛应用于数据竞赛和实际业务场景。
-                    </p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span
-                            class="px-3 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded-full text-sm">随机森林</span>
-                        <span
-                            class="px-3 py-1 bg-cyan-900 bg-opacity-50 text-cyan-300 rounded-full text-sm">XGBoost</span>
-                        <span
-                            class="px-3 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded-full text-sm">LightGBM</span>
-                    </div>
-                    <a href="https://en.wikipedia.org/wiki/Ensemble_learning" target="_blank" rel="noopener noreferrer"
-                        class="text-purple-400 hover:text-purple-300 orbitron flex items-center">
-                        了解更多 <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    <a href="https://github.com/a-M1NG/WPF-Universal-Turing-Machine" target="_blank"
+                        class="block w-full bg-black text-white text-center py-3 font-bold hover:bg-white hover:text-black transition-colors border-t-4 border-white">
+                        View Repo <i class="fa-solid fa-arrow-right ml-2"></i>
                     </a>
-                </div>
+                </article>
 
-                <!-- 算法卡片 5 -->
-                <div class="glass-card glow-border p-6 card-3d" data-tilt>
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-cyan-900 flex items-center justify-center">
-                            <i class="fas fa-language text-cyan-400 text-xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold orbitron ml-4">自然语言处理</h3>
-                    </div>
-                    <p class="text-gray-300 mb-4">
-                        使机器理解、解释和生成人类语言，驱动聊天机器人、翻译系统和情感分析等应用。
-                    </p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="px-3 py-1 bg-cyan-900 bg-opacity-50 text-cyan-300 rounded-full text-sm">BERT</span>
-                        <span
-                            class="px-3 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded-full text-sm">GPT系列</span>
-                        <span
-                            class="px-3 py-1 bg-cyan-900 bg-opacity-50 text-cyan-300 rounded-full text-sm">Transformer</span>
-                    </div>
-                    <a href="https://en.wikipedia.org/wiki/Natural_language_processing" target="_blank"
-                        rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 orbitron flex items-center">
-                        了解更多 <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                    </a>
-                </div>
+            </div>
 
-                <!-- 算法卡片 6 -->
-                <div class="glass-card glow-border p-6 card-3d" data-tilt>
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-purple-900 flex items-center justify-center">
-                            <i class="fas fa-eye text-purple-400 text-xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold orbitron ml-4">计算机视觉</h3>
-                    </div>
-                    <p class="text-gray-300 mb-4">
-                        使机器能够"看"和理解视觉世界，应用于图像分类、目标检测和人脸识别等领域。
-                    </p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span
-                            class="px-3 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded-full text-sm">YOLO</span>
-                        <span
-                            class="px-3 py-1 bg-cyan-900 bg-opacity-50 text-cyan-300 rounded-full text-sm">ResNet</span>
-                        <span
-                            class="px-3 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded-full text-sm">ViT</span>
-                    </div>
-                    <a href="https://en.wikipedia.org/wiki/Computer_vision" target="_blank" rel="noopener noreferrer"
-                        class="text-purple-400 hover:text-purple-300 orbitron flex items-center">
-                        了解更多 <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                    </a>
-                </div>
+            <div class="mt-16 text-center">
+                <a href="https://github.com/a-M1NG?tab=repositories" target="_blank"
+                    class="inline-block px-8 py-4 bg-transparent border-4 border-white text-white font-bold font-mono hover:bg-white hover:text-black transition-all shadow-hard hover:shadow-none transform hover:translate-x-1 hover:translate-y-1">
+                    VIEW ALL REPOSITORIES
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- 关键技术部分 -->
-    <section id="technologies" class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold orbitron mb-4">
-                    <span class="cyber-gradient">前沿</span>技术突破
-                </h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    推动人工智能发展的关键技术，从硬件到软件的革命性创新
-                </p>
+    <!-- Footer -->
+    <footer class="bg-brand-neonGreen text-black py-12 border-t-4 border-black">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-6xl font-black mb-8">LET'S CONNECT</h2>
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="https://twitter.com/LoveShark666" target="_blank"
+                    class="text-4xl hover:text-white transition-colors transform hover:scale-110">
+                    <i class="fa-brands fa-twitter"></i>
+                </a>
+                <a href="https://github.com/a-M1NG" target="_blank"
+                    class="text-4xl hover:text-white transition-colors transform hover:scale-110">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="mailto:your-email@example.com"
+                    class="text-4xl hover:text-white transition-colors transform hover:scale-110">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div>
-                    <div class="glass-card mb-8 p-6 flex">
-                        <div class="mr-6">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyan-600 to-purple-600 flex items-center justify-center">
-                                <i class="fas fa-microchip text-white text-2xl"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold orbitron mb-2">专用AI硬件</h3>
-                            <p class="text-gray-300">
-                                TPU、NPU等专用芯片大幅提升神经网络训练和推理效率，使复杂模型实时运行成为可能。
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card mb-8 p-6 flex no-float">
-                        <div class="mr-6">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyan-600 to-purple-600 flex items-center justify-center">
-                                <i class="fas fa-cubes text-white text-2xl"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold orbitron mb-2">大语言模型</h3>
-                            <p class="text-gray-300">
-                                GPT、BERT等千亿级参数模型在自然语言理解与生成方面展现惊人能力，开启通用人工智能新篇章。
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card mb-8 p-6 flex no-float">
-                        <div class="mr-6">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyan-600 to-purple-600 flex items-center justify-center">
-                                <i class="fas fa-sync-alt text-white text-2xl"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold orbitron mb-2">联邦学习</h3>
-                            <p class="text-gray-300">
-                                在保护用户隐私的前提下，实现分布式设备上的协作学习，打破数据孤岛。
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="glass-card mb-8 p-6 flex no-float">
-                        <div class="mr-6">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyan-600 to-purple-600 flex items-center justify-center">
-                                <i class="fas fa-brain text-white text-2xl"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold orbitron mb-2">神经架构搜索</h3>
-                            <p class="text-gray-300">
-                                使用AI设计AI，自动化神经网络结构设计过程，显著提升模型性能和效率。
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card mb-8 p-6 flex no-float">
-                        <div class="mr-6">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyan-600 to-purple-600 flex items-center justify-center">
-                                <i class="fas fa-shield-alt text-white text-2xl"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold orbitron mb-2">可解释AI</h3>
-                            <p class="text-gray-300">
-                                提升AI决策过程的透明度和可理解性，建立人类对AI系统的信任，满足监管要求。
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card mb-8 p-6 flex no-float">
-                        <div class="mr-6">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyan-600 to-purple-600 flex items-center justify-center">
-                                <i class="fas fa-random text-white text-2xl"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold orbitron mb-2">迁移学习</h3>
-                            <p class="text-gray-300">
-                                将预训练模型的知识迁移到新任务，大幅降低小样本场景下的模型训练成本。
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-16 glass-card p-8">
-                <div class="flex flex-col md:flex-row items-center">
-                    <div class="md:w-1/2 mb-6 md:mb-0">
-                        <h3 class="text-2xl font-bold orbitron mb-4">AI技术成熟度曲线</h3>
-                        <p class="text-gray-300 mb-4">
-                            探索各类AI技术从创新萌芽到成熟应用的演进路径，把握技术发展节奏。
-                        </p>
-                        <ul class="space-y-2">
-                            <li class="flex items-center">
-                                <div class="w-3 h-3 rounded-full bg-cyan-500 mr-3"></div>
-                                <span>期望膨胀期：生成式AI、神经符号AI</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
-                                <span>泡沫破裂期：自动驾驶L5、通用AI</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
-                                <span>稳步爬升期：计算机视觉、语音识别</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="md:w-1/2 flex justify-center">
-                        <div class="relative w-64 h-64">
-                            <div class="absolute inset-0 rounded-full border-2 border-cyan-500 opacity-30"></div>
-                            <div class="absolute inset-6 rounded-full border-2 border-purple-500 opacity-30"></div>
-                            <div class="absolute inset-12 rounded-full border-2 border-green-500 opacity-30"></div>
-
-                            <div class="absolute top-1/4 left-1/4 w-4 h-4 bg-cyan-500 rounded-full animate-pulse"></div>
-                            <div class="absolute top-1/3 left-2/3 w-4 h-4 bg-cyan-500 rounded-full animate-pulse"></div>
-
-                            <div class="absolute bottom-1/4 right-1/4 w-4 h-4 bg-purple-500 rounded-full animate-pulse">
-                            </div>
-                            <div class="absolute bottom-1/3 left-1/3 w-4 h-4 bg-purple-500 rounded-full animate-pulse">
-                            </div>
-
-                            <div class="absolute bottom-1/2 right-1/2 w-4 h-4 bg-green-500 rounded-full animate-pulse">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="timeline" class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold orbitron mb-4">
-                    AI<span class="cyber-gradient">发展</span>历程
-                </h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    从概念萌芽到技术爆发，人工智能的里程碑式突破
-                </p>
-            </div>
-
-            <div class="relative">
-                <!-- 时间线 -->
-                <div
-                    class="absolute left-0 md:left-1/2 top-0 h-full w-1 bg-gradient-to-b from-cyan-500 to-purple-500 transform md:-translate-x-1/2">
-                </div>
-
-                <!-- 时间线项目 -->
-                <div class="mb-12">
-                    <div class="flex flex-col md:flex-row items-center">
-                        <div class="md:w-1/2 md:pr-16 md:text-right mb-4 md:mb-0">
-                            <div class="inline-block bg-darkbg p-4 rounded-lg card-gradient">
-                                <h3 class="text-xl font-bold orbitron text-cyan-300">1956 - 达特茅斯会议</h3>
-                                <p class="text-gray-300 mt-2">
-                                    "人工智能"概念正式提出，标志着AI作为一门学科的诞生。
-                                </p>
-                            </div>
-                        </div>
-                        <div class="md:w-1/2 md:pl-16">
-                            <div class="w-6 h-6 rounded-full bg-cyan-500 border-4 border-darkbg"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-12">
-                    <div class="flex flex-col md:flex-row items-center">
-                        <div class="md:w-1/2 md:pr-16 md:text-right mb-4 md:mb-0 order-2 md:order-1">
-                            <div class="w-6 h-6 rounded-full bg-purple-500 border-4 border-darkbg"></div>
-                        </div>
-                        <div class="md:w-1/2 md:pl-16 order-1 md:order-2">
-                            <div class="inline-block bg-darkbg p-4 rounded-lg card-gradient">
-                                <h3 class="text-xl font-bold orbitron text-purple-300">1997 - 深蓝战胜卡斯帕罗夫</h3>
-                                <p class="text-gray-300 mt-2">
-                                    IBM深蓝计算机击败国际象棋世界冠军，展示了AI在复杂决策中的能力。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-12">
-                    <div class="flex flex-col md:flex-row items-center">
-                        <div class="md:w-1/2 md:pr-16 md:text-right mb-4 md:mb-0">
-                            <div class="inline-block bg-darkbg p-4 rounded-lg card-gradient">
-                                <h3 class="text-xl font-bold orbitron text-cyan-300">2012 - AlexNet突破</h3>
-                                <p class="text-gray-300 mt-2">
-                                    AlexNet在ImageNet竞赛中大幅降低错误率，开启深度学习新时代。
-                                </p>
-                            </div>
-                        </div>
-                        <div class="md:w-1/2 md:pl-16">
-                            <div class="w-6 h-6 rounded-full bg-cyan-500 border-4 border-darkbg"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-12">
-                    <div class="flex flex-col md:flex-row items-center">
-                        <div class="md:w-1/2 md:pr-16 md:text-right mb-4 md:mb-0 order-2 md:order-1">
-                            <div class="w-6 h-6 rounded-full bg-purple-500 border-4 border-darkbg"></div>
-                        </div>
-                        <div class="md:w-1/2 md:pl-16 order-1 md:order-2">
-                            <div class="inline-block bg-darkbg p-4 rounded-lg card-gradient">
-                                <h3 class="text-xl font-bold orbitron text-purple-300">2016 - AlphaGo战胜李世石</h3>
-                                <p class="text-gray-300 mt-2">
-                                    深度强化学习在围棋领域击败人类顶尖选手，展现AI在复杂策略游戏中的统治力。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-12">
-                    <div class="flex flex-col md:flex-row items-center">
-                        <div class="md:w-1/2 md:pr-16 md:text-right mb-4 md:mb-0">
-                            <div class="inline-block bg-darkbg p-4 rounded-lg card-gradient">
-                                <h3 class="text-xl font-bold orbitron text-cyan-300">2020 - GPT-3发布</h3>
-                                <p class="text-gray-300 mt-2">
-                                    1750亿参数语言模型展示惊人文本生成能力，推动大模型研究热潮。
-                                </p>
-                            </div>
-                        </div>
-                        <div class="md:w-1/2 md:pl-16">
-                            <div class="w-6 h-6 rounded-full bg-cyan-500 border-4 border-darkbg"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="flex flex-col md:flex-row items-center">
-                        <div class="md:w-1/2 md:pr-16 md:text-right mb-4 md:mb-0 order-2 md:order-1">
-                            <div class="w-6 h-6 rounded-full bg-purple-500 border-4 border-darkbg"></div>
-                        </div>
-                        <div class="md:w-1/2 md:pl-16 order-1 md:order-2">
-                            <div class="inline-block bg-darkbg p-4 rounded-lg card-gradient">
-                                <h3 class="text-xl font-bold orbitron text-purple-300">现在 - AI爆发时代</h3>
-                                <p class="text-gray-300 mt-2">
-                                    多模态模型、生成式AI、AI for Science等前沿领域快速发展，AI正深刻改变人类社会。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 应用场景 -->
-    <section id="applications" class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold orbitron mb-4">
-                    AI<span class="cyber-gradient">应用</span>场景
-                </h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    人工智能正在重塑各行各业，创造前所未有的价值和机遇
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="glass-card rounded-xl overflow-hidden card-3d">
-                    <div class="h-48 bg-gradient-to-br from-cyan-700 to-purple-700 flex items-center justify-center">
-                        <i class="fas fa-stethoscope text-white text-5xl"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold orbitron mb-3">医疗健康</h3>
-                        <p class="text-gray-300 mb-4">
-                            疾病诊断、药物研发、医学影像分析、个性化治疗
-                        </p>
-                        <div class="h-2 bg-gray-800 rounded-full mb-3">
-                            <div class="h-full bg-cyan-500 rounded-full w-4/5"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden card-3d">
-                    <div class="h-48 bg-gradient-to-br from-cyan-700 to-purple-700 flex items-center justify-center">
-                        <i class="fas fa-car text-white text-5xl"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold orbitron mb-3">自动驾驶</h3>
-                        <p class="text-gray-300 mb-4">
-                            环境感知、路径规划、决策控制、车路协同
-                        </p>
-                        <div class="h-2 bg-gray-800 rounded-full mb-3">
-                            <div class="h-full bg-cyan-500 rounded-full w-3/5"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden card-3d">
-                    <div class="h-48 bg-gradient-to-br from-cyan-700 to-purple-700 flex items-center justify-center">
-                        <i class="fas fa-shopping-cart text-white text-5xl"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold orbitron mb-3">智能零售</h3>
-                        <p class="text-gray-300 mb-4">
-                            需求预测、精准营销、智能供应链、无人商店
-                        </p>
-                        <div class="h-2 bg-gray-800 rounded-full mb-3">
-                            <div class="h-full bg-cyan-500 rounded-full w-4/5"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden card-3d">
-                    <div class="h-48 bg-gradient-to-br from-cyan-700 to-purple-700 flex items-center justify-center">
-                        <i class="fas fa-chart-line text-white text-5xl"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold orbitron mb-3">金融科技</h3>
-                        <p class="text-gray-300 mb-4">
-                            风险管理、量化交易、反欺诈、智能投顾
-                        </p>
-                        <div class="h-2 bg-gray-800 rounded-full mb-3">
-                            <div class="h-full bg-cyan-500 rounded-full w-3/4"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden card-3d">
-                    <div class="h-48 bg-gradient-to-br from-cyan-700 to-purple-700 flex items-center justify-center">
-                        <i class="fas fa-industry text-white text-5xl"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold orbitron mb-3">智能制造</h3>
-                        <p class="text-gray-300 mb-4">
-                            预测性维护、质量控制、生产优化、供应链管理
-                        </p>
-                        <div class="h-2 bg-gray-800 rounded-full mb-3">
-                            <div class="h-full bg-cyan-500 rounded-full w-2/3"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden card-3d">
-                    <div class="h-48 bg-gradient-to-br from-cyan-700 to-purple-700 flex items-center justify-center">
-                        <i class="fas fa-graduation-cap text-white text-5xl"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold orbitron mb-3">智慧教育</h3>
-                        <p class="text-gray-300 mb-4">
-                            个性化学习、智能评测、虚拟教师、教育机器人
-                        </p>
-                        <div class="h-2 bg-gray-800 rounded-full mb-3">
-                            <div class="h-full bg-cyan-500 rounded-full w-3/5"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 页脚 -->
-    <footer class="py-12 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold orbitron mb-4">
-                        <span class="cyber-gradient">AI</span>前沿
-                    </h3>
-                    <p class="text-gray-400 mb-4">
-                        探索人工智能的无限可能，引领未来科技发展
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-cyan-400">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-cyan-400">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-cyan-400">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-cyan-400">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold orbitron mb-4 text-gray-300">探索</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-cyan-400">AI研究论文</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-cyan-400">开源项目</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-cyan-400">在线课程</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-cyan-400">开发者工具</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold orbitron mb-4 text-gray-300">资源</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-cyan-400">文档中心</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-cyan-400">API接口</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-cyan-400">数据集</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-cyan-400">模型库</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold orbitron mb-4 text-gray-300">订阅更新</h4>
-                    <p class="text-gray-400 mb-4">
-                        获取最新AI研究进展和技术动态
-                    </p>
-                    <div class="flex">
-                        <input type="email" placeholder="您的邮箱地址"
-                            class="glass-card px-4 py-2 rounded-l-lg focus:outline-none w-full">
-                        <button class="glass-card bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded-r-lg">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
-                <p>© 2025 AI前沿 | 探索人工智能的未来</p>
-                <p class="text-xs">本页面由DeepSeek™ R1辅助生成</p>
-            </div>
+            <p class="font-mono font-bold">
+                &copy; 2025 A-M1NG. Designed with <span class="text-brand-deepPurple">Brain</span> & <span
+                    class="text-brand-neonPink">Passion</span>.
+            </p>
         </div>
     </footer>
 
-    <script>
-        // 创建粒子背景
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const particleCount = 200;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.classList.add('animate-float');
-
-                // 随机大小
-                const size = Math.random() * 5 + 1;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-
-                // 随机位置
-                particle.style.left = `${Math.random() * 100}vw`;
-                particle.style.top = `${Math.random() * 100}vh`;
-
-                // 随机动画延迟
-                particle.style.animationDelay = `${Math.random() * 1.5}s`;
-
-                // 随机透明度
-                particle.style.opacity = Math.random() * 0.5 + 0.1;
-
-                container.appendChild(particle);
-            }
-        }
-
-        function createNeuralNetwork() {
-            const container = document.getElementById('neuralNetwork');
-            container.innerHTML = ''; // 清空之前的神经元和连接，以便重新绘制
-
-            const layerCount = 5;
-            const neuronCounts = [3, 5, 8, 5, 3]; // 每层的神经元数量
-            const width = container.offsetWidth;
-            const height = container.offsetHeight;
-            const layerSpacing = width / (layerCount - 1); // 层间距
-
-            const neuronWidth = 20; // 从CSS中获取或直接定义
-            const neuronHeight = 20; // 从CSS中获取或直接定义
-            const neuronRadiusX = neuronWidth / 2;
-            const neuronRadiusY = neuronHeight / 2;
-
-            // 首先创建所有神经元，并将它们存储起来，方便后续获取位置
-            const neuronsByLayer = [];
-
-            for (let layer = 0; layer < layerCount; layer++) {
-                const currentLayerNeurons = [];
-                const neuronCount = neuronCounts[layer];
-                const x = layer * layerSpacing;
-
-                for (let i = 0; i < neuronCount; i++) {
-                    const neuron = document.createElement('div');
-                    neuron.classList.add('neuron');
-
-                    // 计算神经元左上角的位置，使其在垂直方向上均匀分布
-                    const y = (height / (neuronCount + 1)) * (i + 1);
-
-                    neuron.style.left = `${x - neuronRadiusX}px`; // 调整为中心点对齐 (可选，但绘制时要清楚用的是哪个点)
-                    // 如果这里不减去Radius，则下面取坐标时就要对应调整
-                    // 为了清晰，我们假设 x,y 就是神经元的左上角目标位置
-                    neuron.style.top = `${y - neuronRadiusY}px`;  // 同上
-
-                    // 如果神经元定位是基于左上角，那么JS中计算的x,y就是左上角
-                    // 为了让连线准确，我们确保 x_pos, y_pos 是神经元左上角的坐标
-                    let x_pos = layer * layerSpacing;
-                    // 如果第一层和最后一层要严格贴边，需要调整 x_pos
-                    if (layer === 0) {
-                        x_pos = 0;
-                    } else if (layer === layerCount - 1 && layerCount > 1) {
-                        x_pos = width - neuronWidth; // 如果要神经元完全在容器内，则连线的x目标是这里
-                        // 但通常我们希望神经元“点”在 x_pos 上
-                        // 为了简化，我们先假设 layerSpacing 已经考虑了边界
-                    }
-
-
-                    // y_pos 计算的是神经元中心应该在的垂直位置，再减去半径得到左上角
-                    let y_pos_center = (height / (neuronCount + 1)) * (i + 1);
-                    let y_pos_topLeft = y_pos_center - neuronRadiusY;
-
-                    neuron.style.left = `${x_pos}px`; // 神经元左上角的X
-                    neuron.style.top = `${y_pos_topLeft}px`; // 神经元左上角的Y
-
-
-                    container.appendChild(neuron);
-                    currentLayerNeurons.push({ element: neuron, x: x_pos, y: y_pos_topLeft }); // 存储左上角坐标
-                }
-                neuronsByLayer.push(currentLayerNeurons);
-            }
-
-            // 创建连接线
-            for (let layer = 0; layer < layerCount - 1; layer++) {
-                const currentLayerActualNeurons = neuronsByLayer[layer];
-                const nextLayerActualNeurons = neuronsByLayer[layer + 1];
-
-                for (let i = 0; i < currentLayerActualNeurons.length; i++) {
-                    for (let j = 0; j < nextLayerActualNeurons.length; j++) {
-                        const neuron1 = currentLayerActualNeurons[i];
-                        const neuron2 = nextLayerActualNeurons[j];
-
-                        // 获取神经元1的中心点坐标
-                        const x1_center = neuron1.x + neuronRadiusX;
-                        const y1_center = neuron1.y + neuronRadiusY;
-
-                        // 获取神经元2的中心点坐标
-                        const x2_center = neuron2.x + neuronRadiusX;
-                        const y2_center = neuron2.y + neuronRadiusY;
-
-                        const connection = document.createElement('div');
-                        connection.classList.add('connection');
-
-                        // 基于中心点计算长度和角度
-                        const length = Math.sqrt(Math.pow(x2_center - x1_center, 2) + Math.pow(y2_center - y1_center, 2));
-                        const angle = Math.atan2(y2_center - y1_center, x2_center - x1_center) * 180 / Math.PI;
-
-                        connection.style.width = `${length}px`;
-                        // 连接线的起点是第一个神经元的中心
-                        connection.style.left = `${x1_center}px`;
-                        connection.style.top = `${y1_center}px`;
-                        connection.style.transform = `rotate(${angle}deg)`;
-                        connection.style.opacity = Math.random() * 0.3 + 0.1; // 保持随机透明度
-
-                        // 添加动画效果
-                        connection.style.animation = `connection-pulse ${Math.random() * 4 + 2}s infinite`;
-
-                        container.appendChild(connection);
-                    }
-                }
-            }
-        }
-
-
-        // 3D卡片悬停效果
-        function init3DCards() {
-            const cards = document.querySelectorAll('.card-3d');
-
-            cards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-
-                    const rotateY = (x - centerX) / 25;
-                    const rotateX = (centerY - y) / 25;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
-                    card.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.3)';
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-                    card.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
-                    card.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)';
-
-                    setTimeout(() => {
-                        card.style.transition = 'transform 0.1s ease';
-                    }, 500);
-                });
-            });
-        }
-
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', function () {
-            createParticles();
-            createNeuralNetwork();
-
-            // 监听窗口大小变化，重新生成神经网络
-            window.addEventListener('resize', createNeuralNetwork);
-            init3DCards();
-
-            // 导航栏滚动效果
-            const navLinks = document.querySelectorAll('nav a');
-            window.addEventListener('scroll', function () {
-                const scrollPosition = window.scrollY;
-
-                // 高亮当前部分
-                document.querySelectorAll('section').forEach(section => {
-                    const sectionTop = section.offsetTop - 100;
-                    const sectionHeight = section.offsetHeight;
-                    const sectionId = section.getAttribute('id');
-
-                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                        navLinks.forEach(link => {
-                            link.classList.remove('text-cyan-300');
-                            link.classList.add('text-gray-400');
-
-                            if (link.getAttribute('href') === `#${sectionId}`) {
-                                link.classList.remove('text-gray-400');
-                                link.classList.add('text-cyan-300');
-                            }
-                        });
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>

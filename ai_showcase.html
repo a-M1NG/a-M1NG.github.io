@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Frontier | A-M1NG</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Space Grotesk"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0a0a0a',
+                            light: '#ffffff',
+                            neonGreen: '#ccff00',
+                            neonPink: '#ff00ff',
+                            neonCyan: '#00ffff',
+                            deepPurple: '#4a00e0',
+                        }
+                    },
+                    boxShadow: {
+                        'hard': '8px 8px 0px 0px rgba(0,0,0,1)',
+                        'hard-hover': '12px 12px 0px 0px rgba(0,0,0,1)',
+                        'hard-sm': '4px 4px 0px 0px rgba(0,0,0,1)',
+                        'hard-white': '8px 8px 0px 0px rgba(255,255,255,1)',
+                        'hard-green': '8px 8px 0px 0px #ccff00',
+                        'hard-pink': '8px 8px 0px 0px #ff00ff',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ccff00;
+            border: 3px solid #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff00ff;
+        }
+
+        .text-stroke {
+            -webkit-text-stroke: 1px black;
+            color: transparent;
+        }
+
+        .text-stroke-white {
+            -webkit-text-stroke: 1px white;
+            color: transparent;
+        }
+
+        .brutalist-card {
+            transition: all 0.2s ease;
+        }
+
+        .brutalist-card:hover {
+            transform: translate(-4px, -4px);
+        }
+
+        .hover-shadow-green:hover {
+            box-shadow: 8px 8px 0px 0px #ccff00;
+        }
+
+        .hover-shadow-pink:hover {
+            box-shadow: 8px 8px 0px 0px #ff00ff;
+        }
+
+        .hover-shadow-cyan:hover {
+            box-shadow: 8px 8px 0px 0px #00ffff;
+        }
+
+        .hover-shadow-white:hover {
+            box-shadow: 8px 8px 0px 0px #ffffff;
+        }
+
+        /* Neural Network Canvas Container */
+        #neural-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-brand-dark text-brand-light font-sans selection:bg-brand-neonPink selection:text-white overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 border-b-4 border-brand-neonCyan bg-brand-dark/95 backdrop-blur-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="index.html"
+                    class="text-3xl font-bold font-mono text-brand-neonCyan tracking-tighter hover:text-white transition-colors">
+                    &lt;A-M1NG /&gt;
+                </a>
+                <span
+                    class="hidden md:inline-block bg-brand-neonPink text-black font-bold px-2 py-1 text-xs transform -rotate-6 border border-white">
+                    AI LAB
+                </span>
+            </div>
+
+            <div class="hidden md:flex space-x-6 font-bold text-sm md:text-base font-mono">
+                <a href="#algorithms"
+                    class="hover:text-brand-neonGreen hover:underline decoration-2 underline-offset-4">ALGORITHMS</a>
+                <a href="#technologies"
+                    class="hover:text-brand-neonPink hover:underline decoration-2 underline-offset-4">TECH</a>
+                <a href="#timeline"
+                    class="hover:text-brand-neonCyan hover:underline decoration-2 underline-offset-4">TIMELINE</a>
+                <a href="#applications"
+                    class="hover:text-white hover:underline decoration-2 underline-offset-4">APPS</a>
+            </div>
+
+            <a href="index.html"
+                class="flex items-center gap-2 font-bold bg-white text-black px-4 py-2 border-2 border-brand-neonCyan hover:bg-brand-neonCyan transition-colors group shadow-hard-sm">
+                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                <span class="hidden sm:inline">BACK HOME</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header
+        class="min-h-screen flex flex-col justify-center items-center relative pt-20 border-b-4 border-white overflow-hidden">
+        <!-- Neural Network Background -->
+        <div id="neural-container">
+            <canvas id="neuralCanvas"></canvas>
+        </div>
+
+        <div class="container mx-auto px-4 relative z-10 text-center">
+            <div
+                class="inline-block mb-6 px-6 py-2 bg-brand-neonGreen text-black font-mono font-bold text-xl border-4 border-black shadow-hard-white transform rotate-2">
+                ARTIFICIAL INTELLIGENCE
+            </div>
+
+            <h1 class="text-6xl md:text-9xl font-black mb-8 leading-none uppercase">
+                <span
+                    class="block text-transparent bg-clip-text bg-gradient-to-r from-brand-neonCyan via-white to-brand-neonCyan animate-pulse">
+                    EXPLORE
+                </span>
+                <span class="block text-stroke-white md:text-[1.2em]">THE FUTURE</span>
+            </h1>
+
+            <p
+                class="text-xl md:text-2xl font-mono text-gray-300 max-w-4xl mx-auto mb-12 bg-black/60 backdrop-blur-sm p-4 border-2 border-gray-700">
+                深度解析当今最重要的 <span class="text-brand-neonGreen">AI算法</span> 与 <span
+                    class="text-brand-neonPink">核心技术</span>，<br class="hidden md:block" />揭示机器学习的未来发展方向。
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="#algorithms"
+                    class="px-8 py-4 bg-brand-neonPink text-black font-bold text-xl border-4 border-white shadow-hard-white hover:bg-white hover:shadow-hard-pink transition-all hover:-translate-y-1">
+                    <i class="fas fa-brain mr-2"></i> 核心算法
+                </a>
+                <a href="#applications"
+                    class="px-8 py-4 bg-transparent text-brand-neonCyan font-bold text-xl border-4 border-brand-neonCyan shadow-none hover:bg-brand-neonCyan hover:text-black hover:shadow-hard-white transition-all hover:-translate-y-1">
+                    <i class="fas fa-vial mr-2"></i> 应用场景
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Strip -->
+        <div class="w-full bg-white border-y-4 border-black mt-auto py-4 overflow-hidden">
+            <div
+                class="flex justify-around font-mono font-bold text-black text-lg md:text-2xl uppercase tracking-widest">
+                <span class="flex items-center gap-2"><i class="fas fa-network-wired"></i> Deep Learning</span>
+                <span class="hidden md:flex items-center gap-2"><i class="fas fa-microchip"></i> Neural Networks</span>
+                <span class="flex items-center gap-2"><i class="fas fa-robot"></i> AGI</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Algorithms Section -->
+    <section id="algorithms" class="py-24 border-b-4 border-brand-neonGreen bg-zinc-900">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b-2 border-gray-700 pb-8">
+                <div>
+                    <h2 class="text-5xl md:text-7xl font-black text-white uppercase mb-2">
+                        Core <span class="text-brand-neonGreen">Algorithms</span>
+                    </h2>
+                    <p class="font-mono text-gray-400 text-lg">驱动 AI 革命的底层逻辑</p>
+                </div>
+                <div class="text-6xl text-gray-800 animate-pulse hidden md:block">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Algo Card 1 -->
+                <article class="brutalist-card bg-brand-dark border-4 border-white p-6 hover-shadow-green group h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div
+                            class="w-16 h-16 bg-brand-neonGreen flex items-center justify-center border-2 border-white text-black text-3xl">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <span class="font-mono text-brand-neonGreen font-bold opacity-50">01</span>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4 group-hover:text-brand-neonGreen transition-colors">深度学习</h3>
+                    <p class="text-gray-400 mb-6 font-mono text-sm leading-relaxed">
+                        通过多层神经网络学习数据表示，在图像识别、自然语言处理等领域取得突破性进展。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span
+                            class="px-2 py-1 bg-gray-800 border border-gray-600 text-xs font-mono text-white">CNN</span>
+                        <span
+                            class="px-2 py-1 bg-gray-800 border border-gray-600 text-xs font-mono text-white">RNN</span>
+                        <span
+                            class="px-2 py-1 bg-gray-800 border border-gray-600 text-xs font-mono text-white">Transformer</span>
+                    </div>
+                </article>
+
+                <!-- Algo Card 2 -->
+                <article
+                    class="brutalist-card bg-brand-dark border-4 border-brand-neonPink p-6 hover-shadow-pink group h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div
+                            class="w-16 h-16 bg-brand-neonPink flex items-center justify-center border-2 border-white text-black text-3xl">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <span class="font-mono text-brand-neonPink font-bold opacity-50">02</span>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4 group-hover:text-brand-neonPink transition-colors">强化学习</h3>
+                    <p class="text-gray-400 mb-6 font-mono text-sm leading-relaxed">
+                        智能体通过与环境交互学习最优策略，在游戏AI、机器人控制等领域表现卓越。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span
+                            class="px-2 py-1 bg-gray-800 border border-gray-600 text-xs font-mono text-white">Q-Learning</span>
+                        <span
+                            class="px-2 py-1 bg-gray-800 border border-gray-600 text-xs font-mono text-white">PPO</span>
+                    </div>
+                </article>
+
+                <!-- Algo Card 3 -->
+                <article
+                    class="brutalist-card bg-brand-dark border-4 border-brand-neonCyan p-6 hover-shadow-cyan group h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div
+                            class="w-16 h-16 bg-brand-neonCyan flex items-center justify-center border-2 border-white text-black text-3xl">
+                            <i class="fas fa-random"></i>
+                        </div>
+                        <span class="font-mono text-brand-neonCyan font-bold opacity-50">03</span>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4 group-hover:text-brand-neonCyan transition-colors">GANs</h3>
+                    <p class="text-gray-400 mb-6 font-mono text-sm leading-relaxed">
+                        生成对抗网络。通过生成器与判别器的对抗训练，创造逼真的图像、音频和视频内容。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span
+                            class="px-2 py-1 bg-gray-800 border border-gray-600 text-xs font-mono text-white">StyleGAN</span>
+                        <span
+                            class="px-2 py-1 bg-gray-800 border border-gray-600 text-xs font-mono text-white">CycleGAN</span>
+                    </div>
+                </article>
+
+                <!-- Algo Card 4 -->
+                <article
+                    class="brutalist-card bg-white text-black border-4 border-black p-6 hover-shadow-white group h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div
+                            class="w-16 h-16 bg-black flex items-center justify-center border-2 border-black text-white text-3xl">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <span class="font-mono text-black font-bold opacity-50">04</span>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4">计算机视觉</h3>
+                    <p class="text-gray-700 mb-6 font-mono text-sm leading-relaxed">
+                        使机器能够"看"和理解视觉世界，应用于图像分类、目标检测和人脸识别等领域。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2 py-1 bg-gray-200 border border-black text-xs font-mono text-black">YOLO</span>
+                        <span class="px-2 py-1 bg-gray-200 border border-black text-xs font-mono text-black">ViT</span>
+                    </div>
+                </article>
+
+                <!-- Algo Card 5 -->
+                <article
+                    class="brutalist-card bg-brand-deepPurple border-4 border-white p-6 hover-shadow-white group h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div
+                            class="w-16 h-16 bg-white flex items-center justify-center border-2 border-white text-brand-deepPurple text-3xl">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <span class="font-mono text-white font-bold opacity-50">05</span>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4 text-white">NLP</h3>
+                    <p class="text-gray-200 mb-6 font-mono text-sm leading-relaxed">
+                        自然语言处理。使机器理解、解释和生成人类语言，驱动聊天机器人、翻译系统等。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span
+                            class="px-2 py-1 bg-black/30 border border-white/50 text-xs font-mono text-white">BERT</span>
+                        <span
+                            class="px-2 py-1 bg-black/30 border border-white/50 text-xs font-mono text-white">GPT-4</span>
+                    </div>
+                </article>
+
+                <!-- Algo Card 6 -->
+                <article
+                    class="brutalist-card bg-gray-800 border-4 border-gray-600 p-6 hover:border-brand-neonGreen hover-shadow-green group h-full transition-colors">
+                    <div class="flex justify-between items-start mb-6">
+                        <div
+                            class="w-16 h-16 bg-gray-700 flex items-center justify-center border-2 border-gray-500 text-white text-3xl group-hover:bg-brand-neonGreen group-hover:text-black group-hover:border-white transition-colors">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <span
+                            class="font-mono text-gray-500 font-bold opacity-50 group-hover:text-brand-neonGreen">06</span>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4 group-hover:text-brand-neonGreen">集成学习</h3>
+                    <p class="text-gray-400 mb-6 font-mono text-sm leading-relaxed">
+                        结合多个模型的预测结果，显著提高系统性能和鲁棒性。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span
+                            class="px-2 py-1 bg-black border border-gray-600 text-xs font-mono text-gray-300">XGBoost</span>
+                        <span
+                            class="px-2 py-1 bg-black border border-gray-600 text-xs font-mono text-gray-300">LightGBM</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section id="technologies" class="py-24 bg-brand-neonGreen text-black border-b-4 border-black">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-12">
+                <h2 class="text-6xl md:text-8xl font-black uppercase leading-none">
+                    Tech <br /><span class="text-white text-stroke">Stack</span>
+                </h2>
+                <div
+                    class="bg-black text-brand-neonGreen p-4 font-mono font-bold border-4 border-white shadow-hard transform rotate-2 mt-8 md:mt-0">
+                    // CUTTING EDGE
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Tech Item -->
+                <div class="bg-white border-4 border-black p-8 shadow-hard">
+                    <h3 class="text-2xl font-bold font-mono mb-4 bg-black text-white inline-block px-2">专用 AI 硬件</h3>
+                    <p class="font-medium text-lg">TPU、NPU 等专用芯片大幅提升神经网络训练和推理效率，使复杂模型实时运行成为可能。</p>
+                </div>
+                <!-- Tech Item -->
+                <div class="bg-brand-neonPink border-4 border-black p-8 shadow-hard">
+                    <h3
+                        class="text-2xl font-bold font-mono mb-4 bg-white text-black border-2 border-black inline-block px-2">
+                        大语言模型</h3>
+                    <p class="font-medium text-lg">GPT、BERT 等千亿级参数模型在自然语言理解与生成方面展现惊人能力，开启通用人工智能新篇章。</p>
+                </div>
+                <!-- Tech Item -->
+                <div class="bg-brand-neonCyan border-4 border-black p-8 shadow-hard">
+                    <h3 class="text-2xl font-bold font-mono mb-4 bg-black text-brand-neonCyan inline-block px-2">联邦学习
+                    </h3>
+                    <p class="font-medium text-lg">在保护用户隐私的前提下，实现分布式设备上的协作学习，打破数据孤岛。</p>
+                </div>
+                <!-- Tech Item -->
+                <div class="bg-brand-deepPurple text-white border-4 border-black p-8 shadow-hard">
+                    <h3 class="text-2xl font-bold font-mono mb-4 bg-brand-neonGreen text-black inline-block px-2">神经架构搜索
+                    </h3>
+                    <p class="font-medium text-lg">使用 AI 设计 AI，自动化神经网络结构设计过程，显著提升模型性能和效率。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="py-24 bg-brand-dark relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <div class="w-full h-full"
+                style="background-image: radial-gradient(#333 1px, transparent 1px); background-size: 20px 20px;"></div>
+        </div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-6xl font-black text-white text-center mb-20 uppercase">
+                History <span class="text-brand-neonCyan">Mode</span>
+            </h2>
+
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Vertical Line -->
+                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-2 bg-gray-800 md:-translate-x-1/2"></div>
+
+                <!-- Timeline Item 1 -->
+                <div class="relative mb-16 md:flex items-center w-full">
+                    <div class="md:w-1/2 md:pr-12 pl-16 md:pl-0 md:text-right mb-4 md:mb-0 group">
+                        <div
+                            class="bg-gray-900 border-2 border-brand-neonGreen p-6 shadow-hard-green inline-block w-full md:w-auto group-hover:-translate-y-1 transition-transform">
+                            <div class="text-brand-neonGreen font-mono font-bold text-xl mb-2">1956</div>
+                            <h3 class="text-white text-2xl font-bold mb-2">达特茅斯会议</h3>
+                            <p class="text-gray-400 text-sm">"人工智能"概念正式提出，学科诞生。</p>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute left-0 md:left-1/2 w-10 h-10 bg-brand-neonGreen border-4 border-black rounded-none md:-translate-x-1/2 z-10 flex items-center justify-center">
+                        <div class="w-2 h-2 bg-black"></div>
+                    </div>
+                    <div class="md:w-1/2"></div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative mb-16 md:flex items-center w-full">
+                    <div class="md:w-1/2"></div>
+                    <div
+                        class="absolute left-0 md:left-1/2 w-10 h-10 bg-brand-neonPink border-4 border-black rounded-none md:-translate-x-1/2 z-10 flex items-center justify-center">
+                        <div class="w-2 h-2 bg-black"></div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 pl-16 md:pl-0 group">
+                        <div
+                            class="bg-gray-900 border-2 border-brand-neonPink p-6 shadow-hard-pink inline-block w-full md:w-auto group-hover:-translate-y-1 transition-transform">
+                            <div class="text-brand-neonPink font-mono font-bold text-xl mb-2">1997</div>
+                            <h3 class="text-white text-2xl font-bold mb-2">Deep Blue</h3>
+                            <p class="text-gray-400 text-sm">IBM深蓝击败国际象棋冠军，算力胜利。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative mb-16 md:flex items-center w-full">
+                    <div class="md:w-1/2 md:pr-12 pl-16 md:pl-0 md:text-right mb-4 md:mb-0 group">
+                        <div
+                            class="bg-gray-900 border-2 border-brand-neonCyan p-6 shadow-hard-cyan inline-block w-full md:w-auto group-hover:-translate-y-1 transition-transform">
+                            <div class="text-brand-neonCyan font-mono font-bold text-xl mb-2">2012</div>
+                            <h3 class="text-white text-2xl font-bold mb-2">AlexNet</h3>
+                            <p class="text-gray-400 text-sm">ImageNet竞赛突破，深度学习时代开启。</p>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute left-0 md:left-1/2 w-10 h-10 bg-brand-neonCyan border-4 border-black rounded-none md:-translate-x-1/2 z-10 flex items-center justify-center">
+                        <div class="w-2 h-2 bg-black"></div>
+                    </div>
+                    <div class="md:w-1/2"></div>
+                </div>
+
+                <!-- Timeline Item 4 -->
+                <div class="relative mb-16 md:flex items-center w-full">
+                    <div class="md:w-1/2"></div>
+                    <div
+                        class="absolute left-0 md:left-1/2 w-10 h-10 bg-white border-4 border-black rounded-none md:-translate-x-1/2 z-10 flex items-center justify-center">
+                        <div class="w-2 h-2 bg-black"></div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 pl-16 md:pl-0 group">
+                        <div
+                            class="bg-gray-900 border-2 border-white p-6 shadow-hard-white inline-block w-full md:w-auto group-hover:-translate-y-1 transition-transform">
+                            <div class="text-white font-mono font-bold text-xl mb-2">2020+</div>
+                            <h3 class="text-white text-2xl font-bold mb-2">GPT Era</h3>
+                            <p class="text-gray-400 text-sm">大模型爆发，生成式 AI 改变世界。</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Applications Grid -->
+    <section id="applications" class="py-24 bg-white text-black border-t-4 border-brand-neonGreen">
+        <div class="container mx-auto px-4">
+            <h2 class="text-6xl md:text-8xl font-black text-black mb-16 text-center uppercase tracking-tighter">
+                Applications
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- App Card -->
+                <div
+                    class="border-4 border-black p-6 bg-gray-100 hover:bg-brand-neonGreen transition-colors group cursor-pointer shadow-hard">
+                    <div class="flex justify-between mb-4">
+                        <i class="fas fa-stethoscope text-4xl"></i>
+                        <i
+                            class="fas fa-arrow-up-right-from-square opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold font-mono uppercase mb-2">Healthcare</h3>
+                    <p class="font-medium">疾病诊断、药物研发、医学影像分析。</p>
+                </div>
+
+                <div
+                    class="border-4 border-black p-6 bg-gray-100 hover:bg-brand-neonPink hover:text-white transition-colors group cursor-pointer shadow-hard">
+                    <div class="flex justify-between mb-4">
+                        <i class="fas fa-car text-4xl"></i>
+                        <i
+                            class="fas fa-arrow-up-right-from-square opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold font-mono uppercase mb-2">Autopilot</h3>
+                    <p class="font-medium">环境感知、路径规划、决策控制。</p>
+                </div>
+
+                <div
+                    class="border-4 border-black p-6 bg-gray-100 hover:bg-brand-neonCyan transition-colors group cursor-pointer shadow-hard">
+                    <div class="flex justify-between mb-4">
+                        <i class="fas fa-chart-line text-4xl"></i>
+                        <i
+                            class="fas fa-arrow-up-right-from-square opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold font-mono uppercase mb-2">FinTech</h3>
+                    <p class="font-medium">量化交易、风险管理、反欺诈。</p>
+                </div>
+
+                <div
+                    class="border-4 border-black p-6 bg-gray-100 hover:bg-brand-deepPurple hover:text-white transition-colors group cursor-pointer shadow-hard">
+                    <div class="flex justify-between mb-4">
+                        <i class="fas fa-industry text-4xl"></i>
+                        <i
+                            class="fas fa-arrow-up-right-from-square opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold font-mono uppercase mb-2">Industry 4.0</h3>
+                    <p class="font-medium">预测性维护、质量控制、生产优化。</p>
+                </div>
+
+                <div
+                    class="border-4 border-black p-6 bg-gray-100 hover:bg-black hover:text-white transition-colors group cursor-pointer shadow-hard">
+                    <div class="flex justify-between mb-4">
+                        <i class="fas fa-graduation-cap text-4xl"></i>
+                        <i
+                            class="fas fa-arrow-up-right-from-square opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold font-mono uppercase mb-2">Education</h3>
+                    <p class="font-medium">个性化学习、智能评测、虚拟教师。</p>
+                </div>
+
+                <div
+                    class="border-4 border-black p-6 bg-gray-100 hover:bg-orange-500 hover:text-black transition-colors group cursor-pointer shadow-hard">
+                    <div class="flex justify-between mb-4">
+                        <i class="fas fa-shopping-cart text-4xl"></i>
+                        <i
+                            class="fas fa-arrow-up-right-from-square opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold font-mono uppercase mb-2">Retail</h3>
+                    <p class="font-medium">需求预测、精准营销、供应链管理。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12 border-t-8 border-brand-neonPink">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-black mb-4 text-brand-neonGreen">&lt;A-M1NG /&gt;</h2>
+                    <p class="font-mono text-gray-400 max-w-md">
+                        Exploring the boundaries of Artificial Intelligence and Human Creativity.
+                    </p>
+                </div>
+                <div class="flex justify-start md:justify-end gap-6 text-3xl">
+                    <a href="#" class="hover:text-brand-neonCyan transition-colors"><i class="fab fa-github"></i></a>
+                    <a href="#" class="hover:text-brand-neonPink transition-colors"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-brand-neonGreen transition-colors"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800 text-center font-mono text-sm text-gray-500">
+                &copy; 2025 AI FRONTIER. DESIGNED WITH PASSION.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // -------------------------------
+        // NEURAL NETWORK CANVAS ANIMATION
+        // -------------------------------
+        const canvas = document.getElementById('neuralCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        // Configuration - Neon Style
+        const nodeColor = '#ccff00'; // Neon Green
+        const lineColor = 'rgba(255, 0, 255, 0.2)'; // Neon Pink with low opacity
+        const particleCount = 60;
+        const connectionDistance = 150;
+
+        function resize() {
+            width = canvas.width = document.getElementById('neural-container').offsetWidth;
+            height = canvas.height = document.getElementById('neural-container').offsetHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 3 + 2; // Square nodes
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = nodeColor;
+                // Draw squares instead of circles for Brutalist vibe
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                // Draw connections
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = lineColor;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x + particles[i].size / 2, particles[i].y + particles[i].size / 2);
+                        ctx.lineTo(particles[j].x + particles[j].size / 2, particles[j].y + particles[j].size / 2);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+
+        // Init
+        resize();
+        initParticles();
+        animate();
+    </script>
+</body>
+
+</html>
